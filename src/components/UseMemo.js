@@ -1,47 +1,44 @@
 import React, { useState, useMemo } from "react";
 
-const useMemoComponent = () => {
+const UseMemo = () => {
+  const [count, setCount] = useState(0);
+  const [todos, setTodos] = useState([]);
 
-    const [count, setCount] = useState(0)
-    const [todos, setTodos] = useState([])
-
-    const calculation = useMemo(() => expensiveCalculation(count), [count]);
-
-    const increment = () => {
-        setCount(c => c + 1);
+  const expensiveCalculation = (num) => {
+    for (let i = 0; i < 1000000000; i++) {
+      num += 1;
     }
+    return num;
+  };
 
-    const addTodo = () => {
-        setTodos((t) => [...t, "New Todo"])
-    }
+  const calculation = useMemo(() => expensiveCalculation(count), [count]);
 
-    const expensiveCalculation = (num) => {
-        for (let i = 0; i < 1000000000; i++) {
-            num += 1;
-        }
-        return num;
-    }
+  const increment = () => {
+    setCount((c) => c + 1);
+  };
 
-    return (
-        <div>
-            <div>
-                <h2>My todos</h2>
-                {
-                    todos.map((todo, index) => (
-                        <p id={`todo-${index}`} key={index}>{todo}</p>
-                    ))
-                }
-                <button id="add-todo-btn" onClick={addTodo}>Add Todo</button>
-            </div>
-            <hr />
-            <div>
-                <h2 id="incr-cnt">Count: {count}</h2>
-                <button id="incr-btn" onClick={increment}>+</button>
-                <h2>Expensive Calculation</h2>
-                <p id="calc">{calculation}</p>
-            </div>
-        </div>
-    )
-}
+  const addTodo = () => {
+    setTodos((t) => [...t, "New Todo"]);
+  };
 
-export default useMemoComponent;
+  return (
+    <div>
+      <div>
+        <h2>My todos</h2>
+        {todos.map((todo, index) => (
+          <p id={`todo-${index}`} key={index}>{todo}</p>
+        ))}
+        <button id="add-todo-btn" onClick={addTodo}>Add Todo</button>
+      </div>
+      <hr />
+      <div>
+        <h2 id="incr-cnt">Count: {count}</h2>
+        <button id="incr-btn" onClick={increment}>+</button>
+        <h2>Expensive Calculation</h2>
+        <p id="calc">{calculation}</p>
+      </div>
+    </div>
+  );
+};
+
+export default UseMemo;
